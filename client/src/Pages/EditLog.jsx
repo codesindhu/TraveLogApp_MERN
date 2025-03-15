@@ -11,7 +11,7 @@ function EditLog() {
   useEffect(() => {
     const fetchLog = async () => {
       try {
-        const res = await fetch(`/api/logs/${id}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/logs`)
         const data = await res.json();
         if (!data.error) {
           setTitle(data.title);

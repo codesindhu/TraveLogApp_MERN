@@ -9,7 +9,7 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const fetchLogs = async () => {
-    const res = await fetch('/api/logs');
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/logs`)
     const data = await res.json();
     setLogs(data);
   };
