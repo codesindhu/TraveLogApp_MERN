@@ -23,7 +23,7 @@ A simple MERN stack travel logging app that allows users to create, view, and ma
 ## 🔗 Live Demo
 
 - **Frontend (GitHub Pages)**: [https://yourusername.github.io/TraveLogApp_MERN](https://yourusername.github.io/TraveLogApp_MERN)
-- **Backend (Render)**: [https://your-render-url.onrender.com](https://your-render-url.onrender.com)
+- **Backend (Render)**: https://travelog-backend-un1o.onrender.com
 
 > ⚠️ Replace the above URLs with your actual GitHub Pages and Render links.
 
