@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import ViewLog from './pages/ViewLog';
 import EditLog from './pages/EditLog';
-import Landing from './Pages/Landing';
+import Landing from './pages/Landing';
 
 function App() {
   return (
