@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import ViewLog from './pages/ViewLog';
-import EditLog from './pages/EditLog';
-import Landing from './pages/Landing';
-
+import Landing from './Pages/Landing';
+import Dashboard from './Pages/Dashboard';
+import ViewLog from './Pages/ViewLog';
+import EditLog from './Pages/EditLog';
 function App() {
   return (
     <Router>
