@@ -16,7 +16,7 @@ function Dashboard() {
 
   const addLog = async (e) => {
     e.preventDefault();
-    await fetch('/api/logs', {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/logs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, experience }),
@@ -25,9 +25,11 @@ function Dashboard() {
     setExperience('');
     fetchLogs();
   };
-
+  
   const deleteLog = async (id) => {
-    await fetch(`/api/logs/${id}`, { method: 'DELETE' });
+    await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}`, {
+      method: 'DELETE',
+    });
     fetchLogs();
   };
 

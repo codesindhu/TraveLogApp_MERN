@@ -11,7 +11,7 @@ function EditLog() {
   useEffect(() => {
     const fetchLog = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/logs`)
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}`);
         const data = await res.json();
         if (!data.error) {
           setTitle(data.title);
@@ -28,7 +28,7 @@ function EditLog() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch(`/api/logs/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, experience }),
