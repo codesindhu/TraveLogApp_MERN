@@ -1,3 +1,0 @@
-6.How can we develop a Travel log web application using the MERN Stack to allow users to document and share their travel experiences?
-
-mongodb+srv://traveluser:<db_password>@cluster0.nw3b5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
