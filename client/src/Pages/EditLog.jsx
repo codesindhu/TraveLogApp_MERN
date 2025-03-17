@@ -28,7 +28,7 @@ function EditLog() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}` , {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, experience }),

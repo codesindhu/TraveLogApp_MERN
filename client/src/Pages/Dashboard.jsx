@@ -9,14 +9,14 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const fetchLogs = async () => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}`);
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/logs`);
     const data = await res.json();
     setLogs(data);
   };
 
   const addLog = async (e) => {
     e.preventDefault();
-    await fetch(`${import.meta.env.VITE_API_URL}/api/logs/`    , {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/logs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, experience }),
@@ -27,7 +27,7 @@ function Dashboard() {
   };
   
   const deleteLog = async (id) => {
-    await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}` , {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}`, {
       method: 'DELETE',
     });
     fetchLogs();
@@ -66,4 +66,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
- 
