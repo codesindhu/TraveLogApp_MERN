@@ -1,42 +1,95 @@
-// client/src/Pages/ViewLog.jsx
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 
-function ViewLog() {
+const ViewLog = () => {
   const { id } = useParams();
   const [log, setLog] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLog = async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}`);
-      const data = await res.json();
-      setLog(data);
-      setLoading(false);
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/logs/${id}`);
+        const data = await res.json();
+        if (!data.error) {
+          setLog(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch log:", err);
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchLog();
   }, [id]);
 
-  if (loading) return <h4 className="text-center mt-4">Loading...</h4>;
-  if (!log) return <p className="text-center mt-4 text-danger">Log not found!</p>;
+  if (loading) return <p style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</p>;
+  if (!log) return <p style={{ textAlign: "center", marginTop: "2rem" }}>Log not found!</p>;
 
   return (
-    <div className="container mt-4">
-      <h2 className="mb-3">{log.title}</h2>
-      <p>{log.experience}</p>
-      {log.media && (
-        <>
-          {log.media.startsWith('data:image') ? (
-            <img src={log.media} alt="media" className="img-fluid rounded mb-3" />
-          ) : (
-            <video src={log.media} controls className="img-fluid rounded mb-3" />
-          )}
-        </>
-      )}
-      <small className="text-muted">Posted on: {new Date(log.date).toLocaleString()}</small>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>{log.title}</h2>
+        <p style={styles.experience}>{log.experience}</p>
+        <small style={styles.date}>
+          <strong>Date:</strong> {new Date(log.date).toLocaleString()}
+        </small>
+        <div style={styles.buttons}>
+          <Link to="/dashboard" style={styles.button}>← Back to Dashboard</Link>
+          <Link to={`/edit/${log._id}`} style={{ ...styles.button, backgroundColor: "#00796b" }}>✏️ Edit</Link>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+const styles = {
+  container: {
+    padding: "2rem",
+    backgroundColor: "#f0faff",
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
+  card: {
+    background: "#fff",
+    padding: "2rem",
+    borderRadius: "12px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    maxWidth: "600px",
+    width: "100%",
+  },
+  title: {
+    fontSize: "2rem",
+    color: "#0099cc",
+    marginBottom: "1rem",
+  },
+  experience: {
+    fontSize: "1.1rem",
+    lineHeight: "1.6",
+    marginBottom: "1rem",
+    color: "#333",
+  },
+  date: {
+    display: "block",
+    marginBottom: "1.5rem",
+    color: "#666",
+  },
+  buttons: {
+    display: "flex",
+    gap: "10px",
+  },
+  button: {
+    backgroundColor: "#00bcd4",
+    color: "#fff",
+    padding: "10px 16px",
+    borderRadius: "8px",
+    textDecoration: "none",
+    fontWeight: "bold",
+    transition: "0.2s",
+  },
+};
 
 export default ViewLog;

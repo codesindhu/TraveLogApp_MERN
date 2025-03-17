@@ -1,46 +1,59 @@
+// routes/travelLogs.js
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const TravelLog = require('../models/TravelLog');
 
-// Use multer to handle incoming files
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// Get all logs
+router.get('/', async (req, res) => {
+  const logs = await TravelLog.find().sort({ date: -1 });
+  res.json(logs);
+});
 
-// Add a log with media
-router.post('/', upload.array('media'), async (req, res) => {
-  const { title, experience } = req.body;
-
-  const media = req.files?.map(file => ({
-    data: file.buffer,
-    contentType: file.mimetype,
-  })) || [];
-
+// Get a single log by ID 👇
+router.get('/:id', async (req, res) => {
   try {
-    const log = new TravelLog({ title, experience, media });
+    const log = await TravelLog.findById(req.params.id);
+    if (!log) return res.status(404).json({ error: 'Log not found' });
+    res.json(log);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch log' });
+  }
+});
+
+// Add a log
+router.post('/', async (req, res) => {
+  const { title, experience } = req.body;
+  try {
+    const log = new TravelLog({ title, experience });
     await log.save();
     res.status(201).json(log);
   } catch (err) {
     res.status(400).json({ error: 'Failed to create log' });
   }
 });
-
-// Get all logs with media
-router.get('/', async (req, res) => {
+// Update a log
+router.put('/:id', async (req, res) => {
+  const { title, experience } = req.body;
   try {
-    const logs = await TravelLog.find().sort({ date: -1 });
-    const formattedLogs = logs.map(log => ({
-      _id: log._id,
-      title: log.title,
-      experience: log.experience,
-      date: log.date,
-      media: log.media.map(m => ({
-        contentType: m.contentType,
-        base64: m.data.toString('base64'),
-      }))
-    }));
-    res.json(formattedLogs);
+    const log = await TravelLog.findByIdAndUpdate(
+      req.params.id,
+      { title, experience },
+      { new: true }
+    );
+    res.json(log);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch logs' });
+    res.status(400).json({ error: 'Failed to update log' });
   }
 });
+
+// Delete a log
+router.delete('/:id', async (req, res) => {
+  try {
+    await TravelLog.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Log deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete' });
+  }
+});
+
+module.exports = router;
