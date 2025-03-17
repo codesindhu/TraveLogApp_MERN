@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'docs')));
 app.use('/api/logs', logsRoutes);
 
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ Connected to MongoDB');

@@ -1,35 +1,30 @@
+// client/src/components/LogCard.jsx
 import { useNavigate } from 'react-router-dom';
 
 function LogCard({ log, onDelete }) {
   const navigate = useNavigate();
 
   return (
-    <li style={styles.card}>
-      <h3>{log.title}</h3>
+    <li className="card mb-3 p-3">
+      <h5>{log.title}</h5>
       <p>{log.experience}</p>
-      <small>{new Date(log.date).toLocaleString()}</small>
-      <div style={styles.actions}>
-        <button onClick={() => navigate(`/log/${log._id}`)}>📖 View</button>
-        <button onClick={() => navigate(`/log/${log._id}/edit`)}>✏️ Edit</button>
-        <button onClick={() => onDelete(log._id)}>🗑 Delete</button>
+      {log.media && (
+        <>
+          {log.media.startsWith('data:image') ? (
+            <img src={log.media} alt="log" className="img-fluid rounded mb-2" />
+          ) : (
+            <video src={log.media} controls className="img-fluid rounded mb-2" />
+          )}
+        </>
+      )}
+      <small className="text-muted">{new Date(log.date).toLocaleString()}</small>
+      <div className="mt-2">
+        <button className="btn btn-info btn-sm me-2" onClick={() => navigate(`/log/${log._id}`)}>📖 View</button>
+        <button className="btn btn-warning btn-sm me-2" onClick={() => navigate(`/log/${log._id}/edit`)}>✏️ Edit</button>
+        <button className="btn btn-danger btn-sm" onClick={() => onDelete(log._id)}>🗑 Delete</button>
       </div>
     </li>
   );
 }
-
-const styles = {
-  card: {
-    background: '#ffffff',
-    padding: '15px',
-    margin: '10px 0',
-    borderRadius: '8px',
-    boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-  },
-  actions: {
-    display: 'flex',
-    gap: '10px',
-    marginTop: '10px',
-  },
-};
 
 export default LogCard;
